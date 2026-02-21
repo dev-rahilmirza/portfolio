@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Student Portfolio | AI & Python Projects</title>
 
-  <!-- Optional: Icons (CDN) -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
@@ -43,7 +42,6 @@
       overflow-x:hidden;
     }
 
-    /* Background canvas */
     #fx{
       position:fixed;
       inset:0;
@@ -51,7 +49,6 @@
       opacity:.9;
     }
 
-    /* Soft animated gradient blobs */
     .blob{
       position:fixed;
       width:520px; height:520px;
@@ -109,7 +106,6 @@
       white-space:nowrap;
     }
 
-    /* Header */
     header{
       position:sticky;
       top:0;
@@ -167,7 +163,6 @@
     .navActions{display:flex; gap:10px; align-items:center;}
     .menuBtn{display:none}
 
-    /* Hero */
     .hero{
       padding: 48px 0 10px;
       position:relative;
@@ -264,7 +259,6 @@
     .mini .value small{ color: var(--muted); font-weight:700 }
     .mini i{ color: rgba(255,255,255,.82); opacity:.85 }
 
-    /* Sections */
     section{ padding: 28px 0; }
     .sectionTitle{
       display:flex; align-items:flex-end; justify-content:space-between; gap:12px;
@@ -282,7 +276,6 @@
       font-size: 14px;
     }
 
-    /* Cards grid */
     .grid{
       display:grid;
       grid-template-columns: repeat(3, 1fr);
@@ -349,10 +342,85 @@
       font-weight: 650;
     }
 
-    /* Projects */
-    .projectCard{
-      padding: 0;
+    /* ========================================
+       PROJECTS SLIDER — NEW STYLES
+    ======================================== */
+    .projectsSliderWrapper {
+      position: relative;
+      margin: 0 -18px;
+      padding: 0 18px;
     }
+
+    /* Track that holds all cards side-by-side */
+    .projectsTrack {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 16px;
+      /* Hide scrollbar but keep functionality */
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      cursor: grab;
+    }
+    .projectsTrack:active { cursor: grabbing; }
+    .projectsTrack::-webkit-scrollbar { display: none; }
+
+    /* Each project slide */
+    .projectSlide {
+      flex: 0 0 340px;
+      min-height: 520px;
+      scroll-snap-align: start;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: 0 10px 40px rgba(0,0,0,.25);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity .6s ease, transform .6s cubic-bezier(.2,.8,.2,1), border-color .2s ease, box-shadow .2s ease;
+    }
+    .projectSlide.reveal {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .projectSlide:hover {
+      border-color: rgba(255,255,255,.18);
+      box-shadow: 0 18px 60px rgba(0,0,0,.40);
+    }
+    .projectSlide::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      background: radial-gradient(480px 160px at 20% 10%, rgba(124,77,255,.20), transparent 55%),
+                  radial-gradient(480px 160px at 80% 25%, rgba(0,229,255,.16), transparent 55%);
+      opacity:.9;
+      pointer-events:none;
+      z-index:0;
+    }
+
+    /* Slide number badge */
+    .slideNum {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.14);
+      display: grid;
+      place-items: center;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--muted2);
+      z-index: 1;
+    }
+
     .projectHeader{
       padding: 18px;
       border-bottom: 1px solid rgba(255,255,255,.08);
@@ -360,6 +428,8 @@
       align-items:center;
       justify-content:space-between;
       gap:10px;
+      position: relative;
+      z-index: 1;
     }
     .badge{
       display:inline-flex; align-items:center; gap:8px;
@@ -372,7 +442,12 @@
       font-size: 12px;
       white-space:nowrap;
     }
-    .projectBody{ padding: 18px;}
+    .projectBody{
+      padding: 18px;
+      flex: 1;
+      position: relative;
+      z-index: 1;
+    }
     .projectBody ul{
       margin: 10px 0 0;
       padding-left: 18px;
@@ -385,11 +460,74 @@
       display:flex;
       gap:10px;
       flex-wrap:wrap;
+      position: relative;
+      z-index: 1;
+      margin-top: auto;
     }
     .btn.ghost{ background: rgba(255,255,255,.06); }
     .btn.small{ padding: 10px 12px; font-size: 13.5px; }
 
-    /* Timeline / Workshop */
+    /* Slider navigation arrows */
+    .sliderNav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 16px;
+    }
+    .sliderDots {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.20);
+      border: 1px solid rgba(255,255,255,.12);
+      cursor: pointer;
+      transition: all .25s ease;
+    }
+    .dot.active {
+      width: 22px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-color: transparent;
+    }
+    .sliderArrows { display: flex; gap: 10px; }
+    .arrowBtn {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.75);
+      display: grid; place-items: center;
+      cursor: pointer;
+      font-size: 15px;
+      transition: all .2s ease;
+    }
+    .arrowBtn:hover {
+      background: rgba(255,255,255,.12);
+      border-color: rgba(255,255,255,.22);
+      color: var(--txt);
+      transform: scale(1.06);
+    }
+    .arrowBtn:disabled {
+      opacity: .35;
+      cursor: default;
+      transform: none;
+    }
+
+    /* Slide counter text */
+    .sliderCount {
+      color: var(--muted2);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    /* ========================================
+       END SLIDER STYLES
+    ======================================== */
+
     .timeline{
       display:grid;
       grid-template-columns: 1fr 1fr;
@@ -424,7 +562,6 @@
       font-weight: 750;
     }
 
-    /* Footer / Contact */
     .contact{
       display:grid;
       grid-template-columns: 1fr 1fr;
@@ -470,7 +607,6 @@
       flex-wrap:wrap;
     }
 
-    /* Mobile */
     @media (max-width: 920px){
       .heroGrid{ grid-template-columns: 1fr; }
       .grid{ grid-template-columns: 1fr; }
@@ -478,9 +614,9 @@
       .contact{ grid-template-columns: 1fr; }
       .navlinks{ display:none; }
       .menuBtn{ display:inline-flex; }
+      .projectSlide { flex: 0 0 min(300px, 85vw); }
     }
 
-    /* Mobile drawer */
     .drawer{
       position:fixed;
       top:62px;
@@ -505,7 +641,6 @@
     }
     .drawer a:hover{ background: rgba(255,255,255,.07); color: var(--txt); }
 
-    /* Micro animations */
     .spark{
       position:absolute;
       inset:auto;
@@ -525,7 +660,6 @@
       50%{ transform: scale(1.1); opacity:.65;}
     }
 
-    /* Scroll progress bar */
     .progress{
       position:fixed;
       top:0; left:0;
@@ -598,7 +732,7 @@
               </div>
 
               <h1>
-                Hi, I’m <span style="background:linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip:text; background-clip:text; color:transparent;">Rahil Mirza</span>
+                Hi, I'm <span style="background:linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip:text; background-clip:text; color:transparent;">Rahil Mirza</span>
                 <br/>
                 <span style="color:rgba(255,255,255,.78); font-weight:800;">Building with Python & Machine Learning</span>
               </h1>
@@ -610,7 +744,7 @@
               </div>
 
               <p class="subtitle">
-                I’m a B.Sc in Computer Science student (2nd year, 4th semester) from Haldia Institute of Management.
+                I'm a B.Sc in Computer Science student (2nd year, 4th semester) from Haldia Institute of Management.
                 I completed a hands-on AI/ML workshop and built real projects using Python, EDA, and Linear Regression.
                 <br/><br/>
                 <span style="color:rgba(255,255,255,.82); font-weight:750;">Mentored by:</span>
@@ -620,9 +754,7 @@
               <div class="heroBtns">
                 <a class="btn primary" href="#projects"><i class="fa-solid fa-layer-group"></i> View Projects</a>
                 <a class="btn" href="#contact"><i class="fa-solid fa-paper-plane"></i> Contact</a>
-                <a class="btn" href="https://www.instagram.com/code_scholar_eu/" target="_blank" rel="noopener">
-                  <i class="fa-brands fa-instagram"></i> Code_ScholarEU
-                </a>
+               
               </div>
             </div>
           </div>
@@ -632,7 +764,7 @@
             <div class="heroMeta">
               <div class="mini">
                 <div class="label"><i class="fa-solid fa-clipboard-check"></i> Projects Completed</div>
-                <div class="value"><span id="projectCount">2</span> <small>AI/ML projects</small></div>
+                <div class="value"><span id="projectCount">5</span> <small>AI/ML projects</small></div>
               </div>
               <div class="mini">
                 <div class="label"><i class="fa-solid fa-graduation-cap"></i> Focus</div>
@@ -671,7 +803,7 @@
             </div>
             <h3>Who I am</h3>
             <p>
-              I’m a B.Sc (CS) student passionate about Python, data analysis, and Machine Learning.
+              I'm a B.Sc (CS) student passionate about Python, data analysis, and Machine Learning.
               I enjoy building projects that solve real problems and learning modern AI tools.
             </p>
             <div class="tags">
@@ -685,10 +817,10 @@
             <div class="cardTop">
               <div class="cardIcon"><i class="fa-solid fa-compass-drafting"></i></div>
             </div>
-            <h3>What I’m learning</h3>
+            <h3>What I'm learning</h3>
             <p>
-              I’m exploring AI concepts like supervised learning, model evaluation, and basic feature engineering.
-              I’m also interested in automation workflows and LLM applications.
+              I'm exploring AI concepts like supervised learning, model evaluation, and basic feature engineering.
+              I'm also interested in automation workflows and LLM applications.
             </p>
             <div class="tags">
               <span class="tag">AI</span>
@@ -701,13 +833,13 @@
             <div class="cardTop">
               <div class="cardIcon"><i class="fa-solid fa-handshake-angle"></i></div>
             </div>
-            <h3>Mentorship</h3>
+            <h3>Projects</h3>
             <p>
-              Guided by <b>SK Sahil</b>, I completed hands-on projects in Google Colab and pushed them to GitHub.
+               I completed hands-on projects in Google Colab and pushed them to GitHub.
               This improved my confidence in coding + presenting ML concepts.
             </p>
             <div class="tags">
-              <span class="tag">Mentored projects</span>
+              <span class="tag">Hands on projects</span>
               <span class="tag">Presentation skills</span>
               <span class="tag">GitHub workflow</span>
             </div>
@@ -770,128 +902,277 @@
       </div>
     </section>
 
-    <!-- PROJECTS -->
+    <!-- PROJECTS — HORIZONTAL SLIDER -->
     <section id="projects">
       <div class="container">
         <div class="sectionTitle">
           <div>
             <h2>Featured Projects</h2>
-            <p>Two projects built during the AI/ML workshop (Colab → GitHub).</p>
+            <p>Projects built during the AI/ML workshop (Colab → GitHub). <span style="color:var(--accent2); font-weight:750;">← Slide to explore →</span></p>
           </div>
           <span class="chip"><i class="fa-solid fa-star"></i> Portfolio highlights</span>
         </div>
 
-        <div class="grid">
-          <!-- Project 1 -->
-          <div class="card projectCard revealOnScroll">
-            <div class="projectHeader">
-              <div style="display:flex; gap:12px; align-items:center;">
-                <div class="cardIcon"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
-                <div>
-                  <h3 style="margin:0;">Project 1: EDA Dashboard (Titanic)</h3>
-                  <div style="color:var(--muted); font-weight:700; font-size:13px;">Exploratory Data Analysis • Visual Insights</div>
+        <div class="projectsSliderWrapper">
+          <div class="projectsTrack" id="projectsTrack">
+
+            <!-- ── Project 1 ── -->
+            <div class="projectSlide revealOnScroll">
+              <span class="slideNum">1</span>
+              <div class="projectHeader">
+                <div style="display:flex; gap:12px; align-items:center;">
+                  <div class="cardIcon"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+                  <div>
+                    <h3 style="margin:0; font-size:15px;">Project 1: EDA Dashboard (Titanic)</h3>
+                    <div style="color:var(--muted); font-weight:700; font-size:12px;">Exploratory Data Analysis • Visual Insights</div>
+                  </div>
+                </div>
+                <span class="badge"><i class="fa-solid fa-check"></i> Completed</span>
+              </div>
+
+              <div class="projectBody">
+                <p>A beginner-friendly EDA project where I loaded a real dataset, cleaned missing values, created visualizations, and wrote insights from patterns.</p>
+                <ul>
+                  <li>Loaded dataset and explored columns using <b>Pandas</b></li>
+                  <li>Handled missing values using <b>mean</b> and <b>mode</b></li>
+                  <li>Created visualizations: survival count, gender vs survival, age distribution</li>
+                  <li>Summarized key insights clearly (ready for presentation)</li>
+                </ul>
+                <div class="tags" style="margin-top:14px;">
+                  <span class="tag">Pandas</span>
+                  <span class="tag">Matplotlib</span>
+                  <span class="tag">Cleaning</span>
+                  <span class="tag">Insights</span>
                 </div>
               </div>
-              <span class="badge"><i class="fa-solid fa-check"></i> Completed</span>
-            </div>
 
-            <div class="projectBody">
-              <p>
-                A beginner-friendly EDA project where I loaded a real dataset, cleaned missing values, created visualizations,
-                and wrote insights from patterns.
-              </p>
-              <ul>
-                <li>Loaded dataset and explored columns using <b>Pandas</b></li>
-                <li>Handled missing values using <b>mean</b> and <b>mode</b></li>
-                <li>Created visualizations: survival count, gender vs survival, age distribution</li>
-                <li>Summarized key insights clearly (ready for presentation)</li>
-              </ul>
-
-              <div class="tags" style="margin-top:14px;">
-                <span class="tag">Pandas</span>
-                <span class="tag">Matplotlib</span>
-                <span class="tag">Cleaning</span>
-                <span class="tag">Insights</span>
+              <div class="projectActions">
+                <a class="btn small primary" href="#" target="_blank" rel="noopener" id="p1Notebook">
+                  <i class="fa-solid fa-file-code"></i> Notebook Link
+                </a>
+                <a class="btn small ghost" href="#" target="_blank" rel="noopener" id="p1Repo">
+                  <i class="fa-brands fa-github"></i> GitHub Repo
+                </a>
               </div>
             </div>
 
-            <div class="projectActions">
-              <a class="btn small primary" href="#" target="_blank" rel="noopener" id="p1Notebook">
-                <i class="fa-solid fa-file-code"></i> Notebook Link
-              </a>
-              <a class="btn small ghost" href="#" target="_blank" rel="noopener" id="p1Repo">
-                <i class="fa-brands fa-github"></i> GitHub Repo
-              </a>
-            </div>
-          </div>
+            <!-- ── Project 2 ── -->
+            <div class="projectSlide revealOnScroll" style="transition-delay:.1s">
+              <span class="slideNum">2</span>
+              <div class="projectHeader">
+                <div style="display:flex; gap:12px; align-items:center;">
+                  <div class="cardIcon"><i class="fa-solid fa-house-chimney"></i></div>
+                  <div>
+                    <h3 style="margin:0; font-size:15px;">Project 2: House Price Prediction</h3>
+                    <div style="color:var(--muted); font-weight:700; font-size:12px;">Linear Regression • Evaluation (RMSE, R²)</div>
+                  </div>
+                </div>
+                <span class="badge" style="background: rgba(0,229,255,.16); border-color: rgba(0,229,255,.35);">
+                  <i class="fa-solid fa-brain"></i> ML
+                </span>
+              </div>
 
-          <!-- Project 2 -->
-          <div class="card projectCard revealOnScroll">
-            <div class="projectHeader">
-              <div style="display:flex; gap:12px; align-items:center;">
-                <div class="cardIcon"><i class="fa-solid fa-house-chimney"></i></div>
-                <div>
-                  <h3 style="margin:0;">Project 2: House Price Prediction</h3>
-                  <div style="color:var(--muted); font-weight:700; font-size:13px;">Linear Regression • Evaluation (RMSE, R²)</div>
+              <div class="projectBody">
+                <p>Built my first supervised ML model using <b>Linear Regression</b>. The model learns from training data and predicts house prices on unseen test data.</p>
+                <ul>
+                  <li>Performed <b>train-test split</b> to test on unseen data</li>
+                  <li>Trained model using <b>scikit-learn</b> LinearRegression</li>
+                  <li>Evaluated performance using <b>RMSE</b> and <b>R² score</b></li>
+                  <li>Visualized <b>Actual vs Predicted</b> and residual errors</li>
+                </ul>
+                <div class="tags" style="margin-top:14px;">
+                  <span class="tag">scikit-learn</span>
+                  <span class="tag">Linear Regression</span>
+                  <span class="tag">RMSE</span>
+                  <span class="tag">R²</span>
                 </div>
               </div>
-              <span class="badge" style="background: rgba(0,229,255,.16); border-color: rgba(0,229,255,.35);">
-                <i class="fa-solid fa-brain"></i> ML
-              </span>
-            </div>
 
-            <div class="projectBody">
-              <p>
-                Built my first supervised ML model using <b>Linear Regression</b>. The model learns from training data and predicts
-                house prices on unseen test data.
-              </p>
-              <ul>
-                <li>Performed <b>train-test split</b> to test on unseen data</li>
-                <li>Trained model using <b>scikit-learn</b> LinearRegression</li>
-                <li>Evaluated performance using <b>RMSE</b> and <b>R² score</b></li>
-                <li>Visualized <b>Actual vs Predicted</b> and residual errors</li>
-              </ul>
-
-              <div class="tags" style="margin-top:14px;">
-                <span class="tag">scikit-learn</span>
-                <span class="tag">Linear Regression</span>
-                <span class="tag">RMSE</span>
-                <span class="tag">R²</span>
+              <div class="projectActions">
+                <a class="btn small primary" href="#" target="_blank" rel="noopener" id="p2Notebook">
+                  <i class="fa-solid fa-file-code"></i> Notebook Link
+                </a>
+                <a class="btn small ghost" href="#" target="_blank" rel="noopener" id="p2Repo">
+                  <i class="fa-brands fa-github"></i> GitHub Repo
+                </a>
               </div>
             </div>
 
-            <div class="projectActions">
-              <a class="btn small primary" href="#" target="_blank" rel="noopener" id="p2Notebook">
-                <i class="fa-solid fa-file-code"></i> Notebook Link
-              </a>
-              <a class="btn small ghost" href="#" target="_blank" rel="noopener" id="p2Repo">
-                <i class="fa-brands fa-github"></i> GitHub Repo
-              </a>
+            <!-- ── Project 3 ── -->
+            <div class="projectSlide revealOnScroll" style="transition-delay:.2s">
+              <span class="slideNum">3</span>
+              <div class="projectHeader">
+                <div style="display:flex; gap:12px; align-items:center;">
+                  <div class="cardIcon" style="background: rgba(0,230,118,.12); border-color: rgba(0,230,118,.22);">
+                    <i class="fa-solid fa-calculator" style="color: var(--good);"></i>
+                  </div>
+                  <div>
+                    <h3 style="margin:0; font-size:15px;">Project 3: Advanced Calculator</h3>
+                    <div style="color:var(--muted); font-weight:700; font-size:12px;">Math Operations • Statistics • Python</div>
+                  </div>
+                </div>
+                <span class="badge" style="background: rgba(0,230,118,.14); border-color: rgba(0,230,118,.35); color: rgba(0,230,118,.9);">
+                  <i class="fa-solid fa-check"></i> Completed
+                </span>
+              </div>
+
+              <div class="projectBody">
+                <p>A Python-based advanced calculator that handles both basic arithmetic and statistical computations — all from scratch without complex libraries.</p>
+                <ul>
+                  <li>Supports <b>addition, subtraction, multiplication, division</b></li>
+                  <li>Calculates <b>Mean</b> — sum of values divided by count</li>
+                  <li>Finds <b>Median</b> — the middle value in a sorted list</li>
+                  <li>Computes <b>Mode</b> — the most frequently occurring value</li>
+                  <li>Handles <b>Average</b> for any list of numbers</li>
+                </ul>
+                <div class="tags" style="margin-top:14px;">
+                  <span class="tag">Python</span>
+                  <span class="tag">Statistics</span>
+                  <span class="tag">Mean / Median / Mode</span>
+                  <span class="tag">Arithmetic</span>
+                </div>
+              </div>
+
+              <div class="projectActions">
+                <a class="btn small primary" href="#" target="_blank" rel="noopener" id="p3Notebook">
+                  <i class="fa-solid fa-file-code"></i> Notebook Link
+                </a>
+                <a class="btn small ghost" href="#" target="_blank" rel="noopener" id="p3Repo">
+                  <i class="fa-brands fa-github"></i> GitHub Repo
+                </a>
+              </div>
+            </div>
+
+            <!-- ── Project 4 ── -->
+            <div class="projectSlide revealOnScroll" style="transition-delay:.3s">
+              <span class="slideNum">4</span>
+              <div class="projectHeader">
+                <div style="display:flex; gap:12px; align-items:center;">
+                  <div class="cardIcon" style="background: rgba(255,234,0,.10); border-color: rgba(255,234,0,.22);">
+                    <i class="fa-solid fa-camera" style="color: var(--warn);"></i>
+                  </div>
+                  <div>
+                    <h3 style="margin:0; font-size:15px;">Project 4: Real-Time Face Detection</h3>
+                    <div style="color:var(--muted); font-weight:700; font-size:12px;">OpenCV • Haar Cascade • Webcam Feed</div>
+                  </div>
+                </div>
+                <span class="badge" style="background: rgba(255,234,0,.14); border-color: rgba(255,234,0,.35); color: rgba(255,234,0,.9);">
+                  <i class="fa-solid fa-eye"></i> Computer Vision
+                </span>
+              </div>
+
+              <div class="projectBody">
+                <p>A real-time face detection application built with Python and OpenCV that captures your webcam feed and highlights faces live using classical CV techniques.</p>
+                <ul>
+                  <li>Used <b>OpenCV</b> to capture and process webcam frames in real-time</li>
+                  <li>Applied <b>Haar Cascade Classifier</b> for fast face detection</li>
+                  <li>Draws bounding boxes around detected faces instantly</li>
+                  <li>Processes each frame with <b>grayscale conversion</b> for efficiency</li>
+                  <li>Runs entirely <b>locally</b> — no cloud or API required</li>
+                </ul>
+                <div class="tags" style="margin-top:14px;">
+                  <span class="tag">OpenCV</span>
+                  <span class="tag">Haar Cascade</span>
+                  <span class="tag">Computer Vision</span>
+                  <span class="tag">Real-Time</span>
+                </div>
+              </div>
+
+              <div class="projectActions">
+                <a class="btn small primary" href="#" target="_blank" rel="noopener" id="p4Notebook">
+                  <i class="fa-solid fa-file-code"></i> Notebook Link
+                </a>
+                <a class="btn small ghost" href="#" target="_blank" rel="noopener" id="p4Repo">
+                  <i class="fa-brands fa-github"></i> GitHub Repo
+                </a>
+              </div>
+            </div>
+
+            <!-- ── Project 5 ── -->
+            <div class="projectSlide revealOnScroll" style="transition-delay:.4s">
+              <span class="slideNum">5</span>
+              <div class="projectHeader">
+                <div style="display:flex; gap:12px; align-items:center;">
+                  <div class="cardIcon" style="background: rgba(255,82,82,.12); border-color: rgba(255,82,82,.22);">
+                    <i class="fa-solid fa-face-smile-wink" style="color: var(--bad);"></i>
+                  </div>
+                  <div>
+                    <h3 style="margin:0; font-size:15px;">Project 5: Facial Emotion Detection</h3>
+                    <div style="color:var(--muted); font-weight:700; font-size:12px;">Deep Learning • Keras • Live Emotion AI</div>
+                  </div>
+                </div>
+                <span class="badge" style="background: rgba(255,82,82,.14); border-color: rgba(255,82,82,.35); color: rgba(255,130,130,.95);">
+                  <i class="fa-solid fa-brain"></i> Deep Learning
+                </span>
+              </div>
+
+              <div class="projectBody">
+                <p>A real-time facial emotion detection system using OpenCV + Keras. It classifies your live expressions into emotions using a pre-trained deep learning model — no DeepFace required.</p>
+                <ul>
+                  <li>Detects faces in real-time via <b>OpenCV</b> webcam stream</li>
+                  <li>Classifies emotions using a <b>Keras CNN</b> model (no third-party API)</li>
+                  <li>Recognizes: <b>Happy, Sad, Angry, Surprised, Neutral, Fear, Disgust</b></li>
+                  <li>Overlays <b>live emotion label</b> and confidence score on each face</li>
+                  <li>Uses <b>pre-trained weights</b> — fast and lightweight inference</li>
+                </ul>
+                <div class="tags" style="margin-top:14px;">
+                  <span class="tag">OpenCV</span>
+                  <span class="tag">Keras</span>
+                  <span class="tag">CNN</span>
+                  <span class="tag">Emotion AI</span>
+                  <span class="tag">Real-Time</span>
+                </div>
+              </div>
+
+              <div class="projectActions">
+                <a class="btn small primary" href="#" target="_blank" rel="noopener" id="p5Notebook">
+                  <i class="fa-solid fa-file-code"></i> Notebook Link
+                </a>
+                <a class="btn small ghost" href="#" target="_blank" rel="noopener" id="p5Repo">
+                  <i class="fa-brands fa-github"></i> GitHub Repo
+                </a>
+              </div>
+            </div>
+
+            <!-- ── GitHub CTA card ── -->
+            <div class="projectSlide revealOnScroll" style="transition-delay:.5s; min-height:auto;">
+              <span class="slideNum">⭐</span>
+              <div class="projectBody" style="display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding: 32px 24px; flex:1;">
+                <div class="cardIcon" style="width:56px; height:56px; border-radius:18px; margin-bottom:16px; background: rgba(255,255,255,.08);">
+                  <i class="fa-brands fa-github" style="font-size:24px;"></i>
+                </div>
+                <h3 style="margin:0 0 10px; font-size:18px;">My GitHub</h3>
+                <p style="margin:0; color:var(--muted); line-height:1.6; font-size:14px;">
+                  All notebooks are organized by day/session and pushed to GitHub as part of the workshop deliverables.
+                </p>
+                <div class="tags" style="justify-content:center; margin: 16px 0;">
+                  <span class="tag">Colab → GitHub</span>
+                  <span class="tag">Clean structure</span>
+                  <span class="tag">README included</span>
+                </div>
+                <a class="btn primary" href="#" target="_blank" rel="noopener" id="githubMain">
+                  <i class="fa-brands fa-github"></i> Open GitHub Profile
+                </a>
+              </div>
+            </div>
+
+          </div><!-- /projectsTrack -->
+
+          <!-- Slider navigation -->
+          <div class="sliderNav">
+            <span class="sliderCount" id="sliderCount">1 / 6</span>
+            <div class="sliderDots" id="sliderDots"></div>
+            <div class="sliderArrows">
+              <button class="arrowBtn" id="prevBtn" aria-label="Previous project" disabled>
+                <i class="fa-solid fa-chevron-left"></i>
+              </button>
+              <button class="arrowBtn" id="nextBtn" aria-label="Next project">
+                <i class="fa-solid fa-chevron-right"></i>
+              </button>
             </div>
           </div>
 
-          <!-- GitHub / CTA -->
-          <div class="card revealOnScroll">
-            <div class="cardTop">
-              <div class="cardIcon"><i class="fa-brands fa-github"></i></div>
-            </div>
-            <h3>My GitHub</h3>
-            <p>
-              All notebooks are organized by day/session and pushed to GitHub as part of the workshop deliverables.
-            </p>
-            <div class="tags">
-              <span class="tag">Colab → GitHub</span>
-              <span class="tag">Clean structure</span>
-              <span class="tag">README included</span>
-            </div>
-            <div style="margin-top:14px;">
-              <a class="btn primary" href="#" target="_blank" rel="noopener" id="githubMain">
-                <i class="fa-brands fa-github"></i> Open GitHub Profile
-              </a>
-            </div>
-          </div>
-
-        </div>
+        </div><!-- /projectsSliderWrapper -->
       </div>
     </section>
 
@@ -947,19 +1228,19 @@
         <div class="sectionTitle">
           <div>
             <h2>Contact</h2>
-        </div>
+          </div>
           <span class="chip"><i class="fa-solid fa-shield-heart"></i> Open to internships</span>
         </div>
 
         <div class="contact">
           <div class="contactBox revealOnScroll">
-            <h3>Let’s connect</h3>
+            <h3>Let's connect to me🙋‍♂️</h3>
             <p>
-              I’m interested in internships and collaborations in Python, Data Analysis, and beginner ML.
+              I'm interested in internships and collaborations in Python, Data Analysis, and beginner ML.
               I also want to learn more about automation and LLM applications.
             </p>
             <div class="contactLinks">
-              <a class="btn small primary" id="emailBtn" href="mailto:student@email.com">
+              <a class="btn small primary" id="emailBtn" href="mailto:sani2006mirza@gmail.com">
                 <i class="fa-solid fa-envelope"></i> Email Me
               </a>
               <a class="btn small ghost" id="linkedinBtn" href="#" target="_blank" rel="noopener">
@@ -974,18 +1255,20 @@
           <div class="contactBox revealOnScroll">
             <h3>Mentor</h3>
             <p>
-              <b>SK Sahil</b> helped me build these projects and guided me through ML basics, GitHub workflow, and portfolio building.
+              <b>SK Sahil</b> helped me build these projects and guided me through ML basics, GitHub workflow.
+			  
+			  
             </p>
             <div class="contactLinks">
-              <a class="btn small primary" href="https://www.instagram.com/code_scholar_eu/" target="_blank" rel="noopener">
+              <a class="btn small primary" href="https://www.instagram.com/code_scholar_eu/" target="_blank" rel="noopener" style="margin-top: 24px;">
                 <i class="fa-brands fa-instagram"></i> Company (Instagram)
               </a>
-              <a class="btn small ghost" href="#projects">
+              <a class="btn small ghost" href="#projects" style="margin-top: 24px;">
                 <i class="fa-solid fa-layer-group"></i> See Projects
               </a>
             </div>
             <div style="margin-top:12px; color:var(--muted2); font-weight:700; font-size:13px;">
-              Tip: Add mentor certificate/workshop proof link here (optional).
+              
             </div>
           </div>
         </div>
@@ -1011,25 +1294,39 @@
      * EDIT THESE LINKS *
      ********************/
     const LINKS = {
-      githubProfile: "https://github.com/dev-rahilmirza", // <-- replace
-      linkedin: "https//www.linkedin.com/in/rahil-mirza-32415530b",   // <-- replace (or remove)
-      project1Repo: "https://github.com/dev-rahilmirza/Aredent_AI_ML_Training", // <-- replace
-      project2Repo: "https://github.com/dev-rahilmirza/Aredent_AI_ML_Training", // <-- replace
-      project1Notebook: "https://github.com/dev-rahilmirza/Aredent_AI_ML_Training/blob/main/project%201/Project_1_(EDA).ipynb", // <-- add Colab/GitHub notebook link
-      project2Notebook: "https://colab.research.google.com/drive/1ryTY5OLgGr7VQCsh0ZjpxT1qJrJUu7xk?usp=drive_link", // <-- add Colab/GitHub notebook link
-      email: "sani2006mirza@email.com" // <-- replace
+      githubProfile: "https://github.com/dev-rahilmirza",
+      linkedin: "https://www.linkedin.com/in/rahil-mirza-32415530b",
+      project1Repo: "https://github.com/dev-rahilmirza/Aredent_AI_ML_Training",
+      project2Repo: "https://github.com/dev-rahilmirza/Aredent_AI_ML_Training",
+      project3Repo: "https://github.com/dev-rahilmirza/Aredent_AI_ML_Training",   // <-- replace with your calculator repo
+      project4Repo: "https://github.com/dev-rahilmirza/Aredent_AI_ML_Training",   // <-- replace with your face detection repo
+      project5Repo: "https://github.com/dev-rahilmirza/Aredent_AI_ML_Training",   // <-- replace with your emotion detection repo
+      project1Notebook: "https://github.com/dev-rahilmirza/Aredent_AI_ML_Training/blob/main/project%201/Project_1_(EDA).ipynb",
+      project2Notebook: "https://colab.research.google.com/drive/1ryTY5OLgGr7VQCsh0ZjpxT1qJrJUu7xk?usp=drive_link",
+      project3Notebook: "https://colab.research.google.com/drive/1JZP_AKI5UiSZLc1A7DRiOo27l_bpKyI6",  // <-- replace with calculator notebook link
+      project4Notebook: "https://github.com/dev-rahilmirza/Aredent_AI_ML_Training/blob/main/project%204/face_detection%20(1).py",  // <-- replace with face detection notebook link
+      project5Notebook: "https://github.com/dev-rahilmirza/Aredent_AI_ML_Training/blob/main/Project%205/emotion_detection.py",  // <-- replace with emotion detection notebook link
+      email: "sani2006mirza@email.com"
     };
 
-    // Apply links
     const $ = (id) => document.getElementById(id);
+
+    // Apply links
     $("githubBtn").href = LINKS.githubProfile;
     $("githubMain").href = LINKS.githubProfile;
     $("linkedinBtn").href = LINKS.linkedin;
 
     $("p1Repo").href = LINKS.project1Repo;
     $("p2Repo").href = LINKS.project2Repo;
+    $("p3Repo").href = LINKS.project3Repo;
+    $("p4Repo").href = LINKS.project4Repo;
+    $("p5Repo").href = LINKS.project5Repo;
+
     $("p1Notebook").href = LINKS.project1Notebook;
     $("p2Notebook").href = LINKS.project2Notebook;
+    $("p3Notebook").href = LINKS.project3Notebook;
+    $("p4Notebook").href = LINKS.project4Notebook;
+    $("p5Notebook").href = LINKS.project5Notebook;
 
     $("emailBtn").href = `mailto:${LINKS.email}`;
 
@@ -1047,9 +1344,11 @@
     const phrases = [
       "EDA dashboards 📊",
       "Linear Regression models 🧠",
+      "Advanced calculators 🔢",
+      "Face detection apps 📷",
+      "Emotion AI systems 😊",
       "Python notebooks in Colab 💻",
-      "AI automation ideas ⚙️",
-      "LLM-powered apps (learning) 🤖"
+      "AI automation ideas ⚙️"
     ];
     const target = $("typeTarget");
     let p = 0, i = 0, deleting = false;
@@ -1087,7 +1386,7 @@
           io.unobserve(e.target);
         }
       });
-    }, {threshold: 0.12});
+    }, {threshold: 0.08});
     revealItems.forEach(el => io.observe(el));
 
     /********************
@@ -1104,6 +1403,112 @@
      * Footer year
      ********************/
     $("year").textContent = new Date().getFullYear();
+
+    /********************
+     * Projects Horizontal Slider
+     ********************/
+    (function initSlider() {
+      const track = $("projectsTrack");
+      const dotsContainer = $("sliderDots");
+      const prevBtn = $("prevBtn");
+      const nextBtn = $("nextBtn");
+      const countEl = $("sliderCount");
+
+      const slides = track.querySelectorAll(".projectSlide");
+      const total = slides.length;
+      let current = 0;
+
+      // Build dots
+      slides.forEach((_, idx) => {
+        const dot = document.createElement("button");
+        dot.className = "dot" + (idx === 0 ? " active" : "");
+        dot.setAttribute("aria-label", `Go to project ${idx + 1}`);
+        dot.addEventListener("click", () => goTo(idx));
+        dotsContainer.appendChild(dot);
+      });
+
+      function getSlideWidth() {
+        const slide = slides[0];
+        const style = getComputedStyle(slide);
+        const gap = 14; // matches CSS gap
+        return slide.offsetWidth + gap;
+      }
+
+      function goTo(idx) {
+        current = Math.max(0, Math.min(idx, total - 1));
+        const offset = current * getSlideWidth();
+        track.scrollTo({ left: offset, behavior: "smooth" });
+        updateUI();
+      }
+
+      function updateUI() {
+        // Update dots
+        dotsContainer.querySelectorAll(".dot").forEach((d, i) => {
+          d.classList.toggle("active", i === current);
+        });
+        // Update counter
+        countEl.textContent = `${current + 1} / ${total}`;
+        // Update arrow states
+        prevBtn.disabled = current === 0;
+        nextBtn.disabled = current === total - 1;
+      }
+
+      prevBtn.addEventListener("click", () => goTo(current - 1));
+      nextBtn.addEventListener("click", () => goTo(current + 1));
+
+      // Keyboard navigation
+      document.addEventListener("keydown", (e) => {
+        const section = document.getElementById("projects");
+        const rect = section.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          if (e.key === "ArrowLeft") goTo(current - 1);
+          if (e.key === "ArrowRight") goTo(current + 1);
+        }
+      });
+
+      // Sync dots when user manually scrolls/drags
+      let scrollTimer;
+      track.addEventListener("scroll", () => {
+        clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(() => {
+          const slideW = getSlideWidth();
+          const newIdx = Math.round(track.scrollLeft / slideW);
+          if (newIdx !== current) {
+            current = newIdx;
+            updateUI();
+          }
+        }, 80);
+      });
+
+      // Touch / drag support
+      let isDragging = false, startX = 0, scrollStart = 0;
+
+      track.addEventListener("mousedown", (e) => {
+        isDragging = true;
+        startX = e.pageX;
+        scrollStart = track.scrollLeft;
+        track.style.userSelect = "none";
+      });
+
+      document.addEventListener("mousemove", (e) => {
+        if (!isDragging) return;
+        const diff = startX - e.pageX;
+        track.scrollLeft = scrollStart + diff;
+      });
+
+      document.addEventListener("mouseup", () => {
+        if (!isDragging) return;
+        isDragging = false;
+        track.style.userSelect = "";
+        // Snap to nearest slide
+        const slideW = getSlideWidth();
+        const newIdx = Math.round(track.scrollLeft / slideW);
+        goTo(Math.max(0, Math.min(newIdx, total - 1)));
+      });
+
+      // Initial state
+      updateUI();
+    })();
 
     /********************
      * Particle canvas background
@@ -1137,7 +1542,6 @@
     function draw(){
       ctx.clearRect(0,0,window.innerWidth, window.innerHeight);
 
-      // dots
       for(const pt of particles){
         pt.x += pt.vx;
         pt.y += pt.vy;
@@ -1152,7 +1556,6 @@
         ctx.fill();
       }
 
-      // lines
       for(let a=0; a<particles.length; a++){
         for(let b=a+1; b<particles.length; b++){
           const p1 = particles[a], p2 = particles[b];
@@ -1160,7 +1563,6 @@
           const d = Math.sqrt(dx*dx + dy*dy);
           if(d < 120){
             const alpha = (1 - d/120) * 0.12;
-            // soft accent gradient line
             const grad = ctx.createLinearGradient(p1.x, p1.y, p2.x, p2.y);
             grad.addColorStop(0, `rgba(124,77,255,${alpha})`);
             grad.addColorStop(1, `rgba(0,229,255,${alpha})`);
@@ -1195,10 +1597,8 @@
     });
 
     /********************
-     * Quick personalization helpers (optional)
+     * Quick personalization helpers
      ********************/
-    // Change "Rahil Mirza" quickly from query string: ?name=Rahul%20Das
-    // Change GitHub quickly: ?github=https://github.com/rahuldas
     const params = new URLSearchParams(location.search);
     const name = params.get("name");
     const github = params.get("github");
